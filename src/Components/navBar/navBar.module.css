@@ -1,0 +1,19 @@
+.banner {
+    background-image: url("../img/banner-2.png");
+    height: 280px;
+    width: 100%;
+    margin-top: 20px;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+}
+img, svg {
+    vertical-align: middle;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+user agent stylesheet
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
