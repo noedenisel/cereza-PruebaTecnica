@@ -2,8 +2,11 @@ import { BrowserRouter as Router, Route, Routes, Link,  } from "react-router-dom
 
 import Home from "./views/Home/home";
 import NavBar from "./Components/navBar/navBar";
-import './App.css';
 import CrearFactura from "./Components/Form/CrearFactura";
+
+
+import './App.css';
+
 
 function App() {
 
