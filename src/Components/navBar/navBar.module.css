@@ -1,12 +1,13 @@
 .banner {
-    background-image: url("../img//banner-2.png");
-    height: 280px;
-    width: 100%;
-    margin-top: 20px;
+    background-image: url("../img/banner-2.png");
+    height: 260px; 
+    width: calc(100% - 20px); 
+    margin: 10px; 
     background-repeat: no-repeat;
-    margin: 0 auto;
-    background-size: 100% auto; 
-}
+    margin: 10px 10px;
+    background-size: cover; 
+  }
+  
   
   img,
   svg {
@@ -22,5 +23,5 @@
   img {
     overflow-clip-margin: content-box;
     overflow: clip;
-  }
+}
   
