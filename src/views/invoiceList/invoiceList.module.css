@@ -37,6 +37,11 @@
       inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
   } 
 
+  .loading{
+    color: 'grey';
+    font-size: '30px';
+    font-weight: 'bold'
+  }
   
 
 

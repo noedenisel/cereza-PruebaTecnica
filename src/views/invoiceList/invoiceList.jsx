@@ -29,7 +29,7 @@ const InvoiceList = () => {
     return () => {
       console.log('Desaparicion del componente');
     };
-  }, [facturas, facturaGuardada]);
+    }, [facturas, facturaGuardada]);
 
   const removeFactura = factura => {
     console.log('Eliminar esta Factura', factura);
@@ -53,16 +53,17 @@ const InvoiceList = () => {
           </tr>
         </thead>
         <tbody>
-        {facturas.map((factura, index) => (
-  <FacturaComponent key={index} factura={factura} remove={removeFactura} />
-))}
-
+          {facturas.map((factura, index) => (
+              <FacturaComponent key={index} factura={factura} remove={removeFactura} />
+            )
+          )}
         </tbody>
       </table>
     );
   };
 
   let facturasTable;
+  
   if (facturas.length > 0) {
     facturasTable = <Table />;
   } else {
@@ -72,12 +73,6 @@ const InvoiceList = () => {
       </div>
     );
   }
-
-  const loadingStyle = {
-    color: 'grey',
-    fontSize: '30px',
-    fontWeight: 'bold'
-  };
   
 
   return (
@@ -92,11 +87,14 @@ const InvoiceList = () => {
             data-mdb-perfect-scrollbar="true"
             style={{ position: 'relative', height: '400px' }}
           >
-            {loading ? (
-              <p style={loadingStyle}>Cargando Facturas</p>
-            ) : (
+          { loading 
+          ? (
+              <p className={styles.loading}>Cargando Facturas</p>
+            ) 
+          : (
               facturasTable
-            )}
+            )
+          }
           </div>
         </div>
       </div>
