@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const CrearFactura = () => {
-    const navigate = useNavigate
+  const navigate = useNavigate();
 
   const [productos, setProductos] = useState([]);
   const [factura, setFactura] = useState({
@@ -79,19 +79,17 @@ const CrearFactura = () => {
   };
 
   const guardarFactura = () => {
-    // Guardar la factura en el LocalStorage
     const storedFacturas = JSON.parse(localStorage.getItem('facturas')) || [];
     const facturaToSave = {
       ...factura,
-      numero: storedFacturas.length + 1 // Generar un número de factura único
+      numero: storedFacturas.length + 1
     };
     storedFacturas.push(facturaToSave);
     localStorage.setItem('facturas', JSON.stringify(storedFacturas));
     console.log('Factura guardada:', facturaToSave);
-    
-    navigate("/invoiceList", { factura: facturaToSave })
 
-};
+    navigate("/", { state: { factura: facturaToSave } });
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -103,6 +101,7 @@ const CrearFactura = () => {
       total: 0
     });
   };
+  
 
   return (
     <div>

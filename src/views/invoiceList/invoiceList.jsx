@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FacturaComponent from '../factura';
 import styles from './invoiceList.module.css';
 
 const InvoiceList = () => {
   const [facturas, setFacturas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const location = useLocation();
+  const [facturaGuardada, setFacturaGuardada] = useState(null);
+
+  useEffect(() => {
+    const storedFacturas = JSON.parse(localStorage.getItem('facturas')) || [];
+    setFacturas(storedFacturas);
+  }, []);
+
 
   useEffect(() => {
     console.log('Modificacion de facturas');
-    
-    const facturaGuardada = location.state?.factura;
+
     if (facturaGuardada) {
       handleSaveFactura(facturaGuardada);
+      setFacturaGuardada(null);
     }
+
     setTimeout(() => {
       setLoading(false);
     }, 2000);
+
     return () => {
       console.log('Desaparicion del componente');
     };
-  }, [facturas, location]);
+  }, [facturas, facturaGuardada]);
 
   const removeFactura = factura => {
     console.log('Eliminar esta Factura', factura);
@@ -45,9 +53,10 @@ const InvoiceList = () => {
           </tr>
         </thead>
         <tbody>
-          {facturas.map((factura, index) => (
-            <FacturaComponent key={index} factura={factura} remove={removeFactura} />
-          ))}
+        {facturas.map((factura, index) => (
+  <FacturaComponent key={index} factura={factura} remove={removeFactura} />
+))}
+
         </tbody>
       </table>
     );
@@ -69,6 +78,7 @@ const InvoiceList = () => {
     fontSize: '30px',
     fontWeight: 'bold'
   };
+  
 
   return (
     <div>

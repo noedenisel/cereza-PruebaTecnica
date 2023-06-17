@@ -1,18 +1,9 @@
-import React , { useEffect } from 'react'
+import React  from 'react'
 import PropTypes from 'prop-types';
 import { Factura } from '../models/factura.class'
 
 const FacturaComponent = ({factura, remove}) => {
    
-//? cada modificacion que haya en factura se genera este uso
-    useEffect(() => {
-        console.log("Factura creada");
-        return () => {
-            console.log("La Factura va a desaparecer");
-        };
-    }, [factura]);
-
-
 return (
     <tr>
         <td>
@@ -32,7 +23,7 @@ return (
 }
 
 FacturaComponent.propTypes = {
-    facura: PropTypes.instanceOf(Factura).isRequired,
+    factura: PropTypes.instanceOf(Factura).isRequired,
     cobrada: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired
 };

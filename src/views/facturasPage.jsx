@@ -1,14 +1,19 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import InvoiceList from './invoiceList/invoiceList';
 
-
 const FacturaPage = () => {
-    return (
-        <div>
-           <InvoiceList/>
-        </div>
-    );
-}
+  const [facturas, setFacturas] = useState([]);
+
+  useEffect(() => {
+    const storedFacturas = JSON.parse(localStorage.getItem('facturas')) || [];
+    setFacturas(storedFacturas);
+  }, []);
+
+  return (
+    <div>
+      <InvoiceList facturas={facturas} />
+    </div>
+  );
+};
 
 export default FacturaPage;
