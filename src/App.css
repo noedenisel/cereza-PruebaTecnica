@@ -39,7 +39,7 @@
 
 body{
 margin: 0 auto;
-width: 100%;
+width: 100vw;
 font-family: var(--bs-body-font-family);
 font-size: var(--bs-body-font-size);
 font-weight: var(--bs-body-font-weight);
@@ -49,6 +49,9 @@ text-align: var(--bs-body-text-align);
 background-color: var(--bs-body-bg);
 -webkit-text-size-adjust: 100%;
 -webkit-tap-highlight-color: transparent;
+align-items: center;
+justify-content: center;
+background-color: aliceblue;
 }
 
 

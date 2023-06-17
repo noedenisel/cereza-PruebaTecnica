@@ -11,8 +11,8 @@ export default function NavBar() {
         <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
           <aside>
             <Link to="/">Home</Link>
-            <Link to="">Link</Link>
-            <Link to="">Link</Link>
+            <Link to="">Crear Facturas</Link>
+            <Link to="">Login</Link>
             
           </aside>
         </div>
