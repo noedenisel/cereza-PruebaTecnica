@@ -9,6 +9,7 @@ const CrearFactura = () => {
   const navigate = useNavigate();
 
   const [productos, setProductos] = useState([]);
+
   const [factura, setFactura] = useState({
     cliente: '',
     items: [],
@@ -29,13 +30,13 @@ const CrearFactura = () => {
       });
   }, []);
 
-  const handleInputChange = (name, value) => {
-    if (name === 'fecha') {
-      setFecha(value);
+  const handleInputChange = e => {
+    if (e.target.name === 'fecha') {
+      setFecha(new Date(e.target.value));
     } else {
       setFactura(prevState => ({
         ...prevState,
-        [name]: value
+        [e.target.name]: e.target.value
       }));
     }
   };
