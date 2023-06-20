@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import FacturaComponent from '../factura';
+
+import FacturaComponent from '../../Components/facturacomponent/facturaComponent';
+
 import styles from './invoiceList.module.css';
 
 const InvoiceList = () => {
@@ -14,8 +16,6 @@ const InvoiceList = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Modificacion de facturas');
-
     if (facturaGuardada) {
       handleSaveFactura(facturaGuardada);
       setFacturaGuardada(null);
@@ -26,12 +26,10 @@ const InvoiceList = () => {
     }, 2000);
 
     return () => {
-      console.log('Desaparicion del componente');
     };
   }, [facturas, facturaGuardada]);
 
   const removeFactura = (factura) => {
-    console.log('Eliminar esta Factura', factura);
     const updatedFacturas = facturas.filter((item) => item.numero !== factura.numero);
     setFacturas(updatedFacturas);
   };

@@ -6,7 +6,6 @@ import CrearFactura from "./Components/crearFactura/crearFactura";
 
 import './App.css';
 
-
 function App() {
 
   return (

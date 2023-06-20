@@ -16,12 +16,7 @@ export default function Home() {
         <div className={styles.invoiceListContainer}>
           <InvoiceList/>
         </div>
-        
       </main>
-      <footer>
-        
-      </footer>
-      
     </div>
   );
 }

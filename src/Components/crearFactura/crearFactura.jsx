@@ -101,7 +101,6 @@ const CrearFactura = () => {
     };
     storedFacturas.push(facturaToSave);
     localStorage.setItem('facturas', JSON.stringify(storedFacturas));
-    console.log('Factura guardada:', facturaToSave);
 
     navigate('/', { state: { factura: facturaToSave } });
   };
@@ -123,67 +122,68 @@ const CrearFactura = () => {
       <h2>Crear Factura</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="cliente">Cliente:</label>
-        <input
-          type="text"
-          id="cliente"
-          name="cliente"
-          value={factura.cliente}
-          onChange={handleInputChange}
-        />
-
+          <input
+            type="text"
+            id="cliente"
+            name="cliente"
+            value={factura.cliente}
+            onChange={handleInputChange}
+          />
+        
         <label htmlFor="fecha">Fecha:</label>
-        <DatePicker
-          id="fecha"
-          name="fecha"
-          selected={fecha}
-          onChange={handleInputChange}
-          dateFormat="dd/MM/yyyy"
-          minDate={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
-        />
+          <DatePicker
+            id="fecha"
+            name="fecha"
+            selected={fecha}
+            onChange={handleInputChange}
+            dateFormat="dd/MM/yyyy"
+            minDate={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
+          />
 
         <h3>Productos:</h3>
-        {factura.items.map((item, index) => (
-          <div key={index}>
-            <label>Producto:</label>
-            <select
-              name="producto"
-              value={item.producto}
-              onChange={e => handleItemChange(e, index)}
-            >
-              <option value="">Seleccione un producto</option>
-              {productos.map(producto => (
-                <option key={producto.id} value={producto.title}>
-                  {producto.title}
-                </option>
-              ))}
-            </select>
+          {factura.items.map((item, index) => (
+            <div key={index}>
+              <label>Producto:</label>
+              
+              <select
+                name="producto"
+                value={item.producto}
+                onChange={e => handleItemChange(e, index)}
+              >
+                <option value="">Seleccione un producto</option>
+                  {productos.map(producto => (
+                    <option key={producto.id} value={producto.title}>
+                      {producto.title}
+                    </option>
+                ))}
+              </select>
 
-            <label>Precio:</label>
-            <input type="number" name="precio" value={item.precio} readOnly />
+              <label>Precio:</label>
+                <input type="number" name="precio" value={item.precio} readOnly />
 
-            <label>Cantidad:</label>
-            <input
-              type="number"
-              name="cantidad"
-              value={item.cantidad}
-              onChange={e => handleItemChange(e, index)}
-            />
+              <label>Cantidad:</label>
+                <input
+                  type="number"
+                  name="cantidad"
+                  value={item.cantidad}
+                  onChange={e => handleItemChange(e, index)}
+                />
 
-            <label>Subtotal:</label>
-            <span>{item.subtotal}</span>
+              <label>Subtotal:</label>
+                <span>{item.subtotal}</span>
 
-            <button type="button" onClick={() => handleEliminarItem(index)}>
-              Eliminar
-            </button>
-          </div>
-        ))}
+              <button type="button" onClick={() => handleEliminarItem(index)}>
+                Eliminar
+              </button>
+            </div>
+          ))}
 
         <button type="button" onClick={handleAgregarItem}>
           Agregar Producto
         </button>
 
         <label>Total:</label>
-        <span>{factura.total}</span>
+          <span>{factura.total}</span>
 
         <button type="submit">Guardar Factura</button>
       </form>
