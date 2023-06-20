@@ -100,7 +100,7 @@ const InvoiceList = () => {
       </div>
       <div>
         <Link to="crearFactura" className="mt-4">
-          <button className={`btn  position-absolute start-50 translate-middle-x ${styles.btn11}`}>
+          <button className={`position-absolute start-50 translate-middle-x ${styles.btn11}`}>
             Crear Factura
           </button>
         </Link>

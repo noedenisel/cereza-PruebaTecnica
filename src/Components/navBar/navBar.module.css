@@ -1,3 +1,8 @@
+.navbar-custom .nav-link {
+  color: white;
+}
+
+
 .banner {
     background-image: url("../img/banner-2.png");
     height: 260px; 
@@ -24,4 +29,5 @@
     overflow-clip-margin: content-box;
     overflow: clip;
 }
-  
+
+
