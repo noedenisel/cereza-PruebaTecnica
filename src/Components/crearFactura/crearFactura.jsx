@@ -3,20 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-
+import Modal from 'react-modal';
 
 const CrearFactura = () => {
   const navigate = useNavigate();
 
+  const [modalOpen, setModalOpen] = useState(false);
   const [productos, setProductos] = useState([]);
 
   const [factura, setFactura] = useState({
     cliente: '',
     items: [],
     total: 0,
-    fechaCreacion: new Date() 
+    fechaCreacion: new Date()
   });
-  
+
   const [fecha, setFecha] = useState(new Date());
 
   useEffect(() => {
@@ -92,6 +93,14 @@ const CrearFactura = () => {
     }));
   };
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const guardarFactura = () => {
     const storedFacturas = JSON.parse(localStorage.getItem('facturas')) || [];
     const facturaToSave = {
@@ -107,14 +116,7 @@ const CrearFactura = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    guardarFactura();
-
-    setFactura({
-      cliente: '',
-      items: [],
-      total: 0
-    });
-    setFecha(new Date());
+    openModal();
   };
 
   return (
@@ -122,71 +124,112 @@ const CrearFactura = () => {
       <h2>Crear Factura</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="cliente">Cliente:</label>
-          <input
-            type="text"
-            id="cliente"
-            name="cliente"
-            value={factura.cliente}
-            onChange={handleInputChange}
-          />
-        
+        <input
+          type="text"
+          id="cliente"
+          name="cliente"
+          value={factura.cliente}
+          onChange={handleInputChange}
+        />
+
         <label htmlFor="fecha">Fecha:</label>
-          <DatePicker
-            id="fecha"
-            name="fecha"
-            selected={fecha}
-            onChange={handleInputChange}
-            dateFormat="dd/MM/yyyy"
-            minDate={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
-          />
+        <DatePicker
+          id="fecha"
+          name="fecha"
+          selected={fecha}
+          onChange={handleInputChange}
+          dateFormat="dd/MM/yyyy"
+          minDate={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
+        />
 
         <h3>Productos:</h3>
-          {factura.items.map((item, index) => (
-            <div key={index}>
-              <label>Producto:</label>
-              
-              <select
-                name="producto"
-                value={item.producto}
-                onChange={e => handleItemChange(e, index)}
-              >
-                <option value="">Seleccione un producto</option>
-                  {productos.map(producto => (
-                    <option key={producto.id} value={producto.title}>
-                      {producto.title}
-                    </option>
-                ))}
-              </select>
+        {factura.items.map((item, index) => (
+          <div key={index}>
+            <label>Producto:</label>
 
-              <label>Precio:</label>
-                <input type="number" name="precio" value={item.precio} readOnly />
+            <select
+              name="producto"
+              value={item.producto}
+              onChange={e => handleItemChange(e, index)}
+            >
+              <option value="">Seleccione un producto</option>
+              {productos.map(producto => (
+                <option key={producto.id} value={producto.title}>
+                  {producto.title}
+                </option>
+              ))}
+            </select>
 
-              <label>Cantidad:</label>
-                <input
-                  type="number"
-                  name="cantidad"
-                  value={item.cantidad}
-                  onChange={e => handleItemChange(e, index)}
-                />
+            <label>Precio:</label>
+            <input type="number" name="precio" value={item.precio} readOnly />
 
-              <label>Subtotal:</label>
-                <span>{item.subtotal}</span>
+            <label>Cantidad:</label>
+            <input
+              type="number"
+              name="cantidad"
+              value={item.cantidad}
+              onChange={e => handleItemChange(e, index)}
+            />
 
-              <button type="button" onClick={() => handleEliminarItem(index)}>
-                Eliminar
-              </button>
-            </div>
-          ))}
+            <label>Subtotal:</label>
+            <span>{item.subtotal}</span>
+
+            <button type="button" onClick={() => handleEliminarItem(index)}>
+              Eliminar
+            </button>
+          </div>
+        ))}
 
         <button type="button" onClick={handleAgregarItem}>
           Agregar Producto
         </button>
 
         <label>Total:</label>
-          <span>{factura.total}</span>
+        <span>{factura.total}</span>
 
         <button type="submit">Guardar Factura</button>
       </form>
+
+      <Modal
+        isOpen={modalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Detalles de la factura"
+      >
+        <h2>Detalles de la factura</h2>
+        <p>Número de factura: {factura.numero}</p>
+        <p>Fecha: {format(factura.fechaCreacion, 'dd/MM/yyyy')}</p>
+        <p>Cliente: {factura.cliente}</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio x unidad</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {factura.items.map((item, index) => (
+              <tr key={index}>
+                <td>{item.producto}</td>
+                <td>{item.precio}</td>
+                <td>{item.cantidad}</td>
+                <td>{item.subtotal}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="3">Total:</td>
+              <td>{factura.total}</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <button onClick={guardarFactura}>Confirmar</button>
+        <button onClick={closeModal}>Cancelar</button>
+      </Modal>
     </div>
   );
 };
