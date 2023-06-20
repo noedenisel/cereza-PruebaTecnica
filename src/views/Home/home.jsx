@@ -14,7 +14,7 @@ export default function Home() {
       </header>
       <main>
         <div className={styles.invoiceListContainer}>
-<InvoiceList/>
+          <InvoiceList/>
         </div>
         
       </main>

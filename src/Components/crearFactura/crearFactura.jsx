@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { format } from 'date-fns';
+
 
 const CrearFactura = () => {
   const navigate = useNavigate();
@@ -8,8 +12,11 @@ const CrearFactura = () => {
   const [factura, setFactura] = useState({
     cliente: '',
     items: [],
-    total: 0
+    total: 0,
+    fechaCreacion: new Date() 
   });
+  
+  const [fecha, setFecha] = useState(new Date());
 
   useEffect(() => {
     fetch('https://dummyjson.com/products')
@@ -22,11 +29,15 @@ const CrearFactura = () => {
       });
   }, []);
 
-  const handleInputChange = e => {
-    setFactura(prevState => ({
-      ...prevState,
-      [e.target.name]: e.target.value
-    }));
+  const handleInputChange = (name, value) => {
+    if (name === 'fecha') {
+      setFecha(value);
+    } else {
+      setFactura(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   const handleItemChange = (e, index) => {
@@ -34,7 +45,9 @@ const CrearFactura = () => {
     const items = [...factura.items];
     items[index][name] = value;
 
-    const selectedProduct = productos.find(producto => producto.title === items[index].producto);
+    const selectedProduct = productos.find(
+      producto => producto.title === items[index].producto
+    );
     const precio = selectedProduct ? selectedProduct.price : 0;
 
     items[index].precio = precio;
@@ -82,13 +95,14 @@ const CrearFactura = () => {
     const storedFacturas = JSON.parse(localStorage.getItem('facturas')) || [];
     const facturaToSave = {
       ...factura,
-      numero: storedFacturas.length + 1
+      numero: storedFacturas.length + 1,
+      fecha: format(factura.fechaCreacion, 'dd/MM/yyyy')
     };
     storedFacturas.push(facturaToSave);
     localStorage.setItem('facturas', JSON.stringify(storedFacturas));
     console.log('Factura guardada:', facturaToSave);
 
-    navigate("/", { state: { factura: facturaToSave } });
+    navigate('/', { state: { factura: facturaToSave } });
   };
 
   const handleSubmit = e => {
@@ -100,8 +114,8 @@ const CrearFactura = () => {
       items: [],
       total: 0
     });
+    setFecha(new Date());
   };
-  
 
   return (
     <div>
@@ -114,6 +128,16 @@ const CrearFactura = () => {
           name="cliente"
           value={factura.cliente}
           onChange={handleInputChange}
+        />
+
+        <label htmlFor="fecha">Fecha:</label>
+        <DatePicker
+          id="fecha"
+          name="fecha"
+          selected={fecha}
+          onChange={handleInputChange}
+          dateFormat="dd/MM/yyyy"
+          minDate={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
         />
 
         <h3>Productos:</h3>
@@ -134,12 +158,7 @@ const CrearFactura = () => {
             </select>
 
             <label>Precio:</label>
-            <input
-              type="number"
-              name="precio"
-              value={item.precio}
-              readOnly
-            />
+            <input type="number" name="precio" value={item.precio} readOnly />
 
             <label>Cantidad:</label>
             <input

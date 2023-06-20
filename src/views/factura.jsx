@@ -15,6 +15,10 @@ return (
         <td className='align-midle'>
             <span>${factura.total}</span>
         </td>
+        <td className="align-midle">
+            <span>{factura.fecha}</span>
+        </td>
+
         <td className='align-middle'>
             <i onClick={()=> remove(factura) } className='bi-trash task-action' style={{color: "tomato", fontWeight: "bold"}}></i>
         </td>

@@ -45,10 +45,11 @@ const InvoiceList = () => {
       <table className="table">
         <thead>
           <tr>
-            <th scope="col" className="w-15">Nro Factura</th>
-            <th scope="col" className="w-25">Cliente</th>
-            <th scope="col" className="w-20">Total</th>
-            <th scope="col" className="w-40">Actions</th>
+            <th scope="col">Nro Factura</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Total</th>
+            <th scope="col">Fecha de Factura</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -102,3 +103,4 @@ const InvoiceList = () => {
 };
 
 export default InvoiceList;
+
