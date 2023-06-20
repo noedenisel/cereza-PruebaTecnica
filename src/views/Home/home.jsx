@@ -13,7 +13,10 @@ export default function Home() {
         <h2 className={styles.h2}>PRUEBA TECNICA</h2>
       </header>
       <main>
-        <InvoiceList/>
+        <div className={styles.invoiceListContainer}>
+<InvoiceList/>
+        </div>
+        
       </main>
       <footer>
         

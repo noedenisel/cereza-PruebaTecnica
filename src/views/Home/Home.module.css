@@ -15,5 +15,10 @@
   color: #6A727D;
 }
 
+.invoiceListContainer {
+  max-width: 800px; 
+  margin: 0 auto;
+}
+
   
 
