@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Factura } from '../../models/factura.class';
-import DetallesFacturaModal from '../Modal/modal';
 
-const FacturaComponent = ({ factura, remove , guardarFactura}) => {
+import Detail from "../modalDetail/modalDetail"
+
+import { Factura } from '../../models/factura.class'
+
+const FacturaComponent = ({ factura, remove }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [facturaModificada, setFacturaModificada] = useState(factura);
 
   const openModal = () => {
     setModalOpen(true);
@@ -15,57 +16,42 @@ const FacturaComponent = ({ factura, remove , guardarFactura}) => {
     setModalOpen(false);
   };
 
-  const handleItemChange = (e, index) => {
-    const { name, value } = e.target;
-    const updatedItems = [...facturaModificada.items];
-    updatedItems[index][name] = value;
-
-    const updatedFactura = { ...facturaModificada, items: updatedItems };
-    setFacturaModificada(updatedFactura);
-  };
-
-  const handleEliminarItem = (index) => {
-    const updatedItems = [...facturaModificada.items];
-    updatedItems.splice(index, 1);
-
-    const updatedFactura = { ...facturaModificada, items: updatedItems };
-    setFacturaModificada(updatedFactura);
-  };
-
   return (
     <tr>
       <td>
-        <span className="ms-2">{facturaModificada.numero}</span>
+        <span className="ms-2">{factura.numero}</span>
       </td>
       <td>
-        <span className="align-midle">{facturaModificada.cliente}</span>
+        <span className="align-midle">{factura.cliente}</span>
       </td>
       <td className="align-midle">
-        <span>${facturaModificada.total}</span>
+        <span>${factura.total}</span>
       </td>
       <td className="align-midle">
-        <span>{facturaModificada.fecha}</span>
+        <span>{factura.fecha}</span>
       </td>
       <td className="align-middle">
-        <i onClick={() => remove(facturaModificada)} className="bi bi-trash task-action" style={{ color: 'tomato', fontWeight: 'bold' }}></i>
-        <i onClick={openModal} className="bi bi-pencil"></i>
+        <i onClick={() => remove(factura)} className="bi-trash task-action" style={{ color: 'tomato', fontWeight: 'bold' }}></i>
+        <i className="bi bi-info" onClick={openModal}></i>
       </td>
-
-      <DetallesFacturaModal
+      {modalOpen && (
+        <Detail
           isOpen={modalOpen}
           onRequestClose={closeModal}
-          factura={facturaModificada}
-          handleItemChange={handleItemChange}
-          handleEliminarItem={handleEliminarItem}
-          guardarFactura={guardarFactura}
+          factura={factura}
+          handleItemChange={() => {}}
+          handleEliminarItem={() => {}}
+          guardarFactura={() => {}}
         />
+      )}
     </tr>
   );
 };
 
 FacturaComponent.propTypes = {
-  factura: PropTypes.instanceOf(Factura).isRequired,
-  remove: PropTypes.func.isRequired,
+    factura: PropTypes.instanceOf(Factura).isRequired,
+    cobrada: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired
 };
 
-export default FacturaComponent;
+export default FacturaComponent

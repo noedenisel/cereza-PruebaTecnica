@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import DetallesFacturaModal from '../Modal/modal';
 
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CrearFactura = () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { format, isValid } from 'date-fns';
 import Modal from 'react-modal';
 
+
 const DetallesFacturaModal = ({ isOpen, onRequestClose, factura, handleItemChange, handleEliminarItem, guardarFactura }) => {
   const fechaCreacion = isValid(factura.fechaCreacion)
   ? format(factura.fechaCreacion, 'dd/MM/yyyy')
