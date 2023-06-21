@@ -1,8 +1,12 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import Modal from 'react-modal';
 
 const DetallesFacturaModal = ({ isOpen, onRequestClose, factura, handleItemChange, handleEliminarItem, guardarFactura }) => {
+  const fechaCreacion = isValid(factura.fechaCreacion)
+    ? format(factura.fechaCreacion, 'dd/MM/yyyy')
+    : 'Fecha inválida';
+
   return (
     <Modal
       isOpen={isOpen}
@@ -10,7 +14,7 @@ const DetallesFacturaModal = ({ isOpen, onRequestClose, factura, handleItemChang
       contentLabel="Detalles de la factura"
     >
       <h2>Detalles de la factura</h2>
-      <p>Fecha: {format(factura.fechaCreacion, 'dd/MM/yyyy')}</p>
+      <p>Fecha: {fechaCreacion}</p>
       <p>Cliente: {factura.cliente}</p>
 
       <table className="table">
