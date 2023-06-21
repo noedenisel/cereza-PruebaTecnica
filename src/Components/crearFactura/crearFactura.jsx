@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
-import Modal from 'react-modal';
+import DetallesFacturaModal from '../Modal/modal';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CrearFactura = () => {
   const navigate = useNavigate();
@@ -15,29 +17,29 @@ const CrearFactura = () => {
     cliente: '',
     items: [],
     total: 0,
-    fechaCreacion: new Date()
+    fechaCreacion: new Date(),
   });
 
   const [fecha, setFecha] = useState(new Date());
 
   useEffect(() => {
     fetch('https://dummyjson.com/products')
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setProductos(data.products);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error al obtener los productos:', error);
       });
   }, []);
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     if (e.target.name === 'fecha') {
       setFecha(new Date(e.target.value));
     } else {
-      setFactura(prevState => ({
+      setFactura((prevState) => ({
         ...prevState,
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value,
       }));
     }
   };
@@ -48,7 +50,7 @@ const CrearFactura = () => {
     items[index][name] = value;
 
     const selectedProduct = productos.find(
-      producto => producto.title === items[index].producto
+      (producto) => producto.title === items[index].producto
     );
     const precio = selectedProduct ? selectedProduct.price : 0;
 
@@ -59,10 +61,10 @@ const CrearFactura = () => {
 
     const total = items.reduce((acc, item) => acc + item.subtotal, 0);
 
-    setFactura(prevState => ({
+    setFactura((prevState) => ({
       ...prevState,
       items,
-      total
+      total,
     }));
   };
 
@@ -71,25 +73,25 @@ const CrearFactura = () => {
       producto: '',
       precio: 0,
       cantidad: 0,
-      subtotal: 0
+      subtotal: 0,
     };
 
-    setFactura(prevState => ({
+    setFactura((prevState) => ({
       ...prevState,
-      items: [...prevState.items, newItem]
+      items: [...prevState.items, newItem],
     }));
   };
 
-  const handleEliminarItem = index => {
+  const handleEliminarItem = (index) => {
     const items = [...factura.items];
     items.splice(index, 1);
 
     const total = items.reduce((acc, item) => acc + item.subtotal, 0);
 
-    setFactura(prevState => ({
+    setFactura((prevState) => ({
       ...prevState,
       items,
-      total
+      total,
     }));
   };
 
@@ -102,11 +104,12 @@ const CrearFactura = () => {
   };
 
   const guardarFactura = () => {
-    const storedFacturas = JSON.parse(localStorage.getItem('facturas')) || [];
+    const storedFacturas =
+      JSON.parse(localStorage.getItem('facturas')) || [];
     const facturaToSave = {
       ...factura,
       numero: storedFacturas.length + 1,
-      fecha: format(factura.fechaCreacion, 'dd/MM/yyyy')
+      fecha: format(factura.fechaCreacion, 'dd/MM/yyyy'),
     };
     storedFacturas.push(facturaToSave);
     localStorage.setItem('facturas', JSON.stringify(storedFacturas));
@@ -114,29 +117,36 @@ const CrearFactura = () => {
     navigate('/', { state: { factura: facturaToSave } });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     openModal();
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col">
-          <div className="card">
-            <div className="card-header">
-              <h4>Crear Factura</h4>
-            </div>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="cliente">Cliente:</label>
+    <div className="container d-flex justify-content-center align-items-center vh-90">
+      <div className="card">
+        <div className="card-header text-center">
+          <h4>Crear Factura</h4>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="card-body">
+            <div className="mb-3">
+              <label htmlFor="cliente" className="form-label">
+                Cliente:
+              </label>
               <input
                 type="text"
                 id="cliente"
                 name="cliente"
                 value={factura.cliente}
                 onChange={handleInputChange}
+                className="form-control"
               />
-              <label htmlFor="fecha">Fecha:</label>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="fecha" className="form-label">
+                Fecha:
+              </label>
               <DatePicker
                 id="fecha"
                 name="fecha"
@@ -144,104 +154,102 @@ const CrearFactura = () => {
                 onChange={handleInputChange}
                 dateFormat="dd/MM/yyyy"
                 minDate={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
+                className="form-control"
               />
-              <br />
-              <br />
-              {factura.items.map((item, index) => (
-                <div key={index}>
-                  <label>Producto:</label>
-                  <select
-                    name="producto"
-                    value={item.producto}
-                    onChange={(e) => handleItemChange(e, index)}
-                  >
-                    <option value="">Seleccione un producto</option>
-                    {productos.map((producto) => (
-                      <option key={producto.id} value={producto.title}>
-                        {producto.title}
-                      </option>
-                    ))}
-                  </select>
-
-                  <label>Precio:</label>
-                  <input type="number" name="precio" value={item.precio} readOnly />
-
-                  <label>Cantidad:</label>
-                  <input
-                    type="number"
-                    name="cantidad"
-                    value={item.cantidad}
-                    onChange={(e) => handleItemChange(e, index)}
-                  />
-
-                  <label>Subtotal:</label>
-                  <span>{item.subtotal}</span>
-
-                  <i
-                    onClick={() => handleEliminarItem(index)}
-                    className="bi-trash task-action"
-                    style={{ color: 'tomato', fontWeight: 'bold' }}
-                  ></i>
+            </div>
+            {factura.items.map((item, index) => (
+              <div key={index} className="row">
+                <div className="col">
+                  <div className="mb-3">
+                    <label className="form-label">Producto:</label>
+                    <select
+                      name="producto"
+                      value={item.producto}
+                      onChange={(e) => handleItemChange(e, index)}
+                      className="form-control"
+                    >
+                      <option value="">Seleccione un producto</option>
+                      {productos.map((producto) => (
+                        <option key={producto.id} value={producto.title}>
+                          {producto.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              ))}
-              <br />
-              <button type="button" onClick={handleAgregarItem}>
+                <div className="col">
+                  <div className="mb-3">
+                    <label className="form-label">Precio:</label>
+                    <input
+                      type="number"
+                      name="precio"
+                      value={item.precio}
+                      readOnly
+                      className="form-control"
+                    />
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="mb-3">
+                    <label className="form-label">Cantidad:</label>
+                    <input
+                      type="number"
+                      name="cantidad"
+                      value={item.cantidad}
+                      onChange={(e) => handleItemChange(e, index)}
+                      className="form-control"
+                    />
+                  </div>
+                  <div>
+                    <label className="form-label">Subtotal:</label>
+                    <span>{item.subtotal}</span>
+                    <i
+                      onClick={() => handleEliminarItem(index)}
+                      className="bi-trash task-action"
+                      style={{
+                        color: 'tomato',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        marginLeft: '0.5rem',
+                      }}
+                    ></i>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div className="mb-3">
+              <button
+                type="button"
+                onClick={handleAgregarItem}
+                className="btn btn-secondary"
+              >
                 Agregar Producto
               </button>
-              <br />
-
-              <label>Total:</label>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Total:</label>
               <span>{factura.total}</span>
-              <br />
-              <button type="submit">Guardar Factura</button>
-            </form>
-
-            <Modal
-        isOpen={modalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Detalles de la factura"
-      >
-        <h2>Detalles de la factura</h2>
-        <p>Número de factura: {factura.numero}</p>
-        <p>Fecha: {format(factura.fechaCreacion, 'dd/MM/yyyy')}</p>
-        <p>Cliente: {factura.cliente}</p>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Precio x unidad</th>
-              <th>Cantidad</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {factura.items.map((item, index) => (
-              <tr key={index}>
-                <td>{item.producto}</td>
-                <td>{item.precio}</td>
-                <td>{item.cantidad}</td>
-                <td>{item.subtotal}</td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan="3">Total:</td>
-              <td>{factura.total}</td>
-            </tr>
-          </tfoot>
-        </table>
-
-        <button onClick={guardarFactura}>Confirmar</button>
-        <button onClick={closeModal}>Cancelar</button>
-      </Modal>
+            </div>
+            <div className="mb-3 col text-center">
+              <button type="submit" className="btn btn-primary">
+                Guardar Factura
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
+
+        <DetallesFacturaModal
+          isOpen={modalOpen}
+          onRequestClose={closeModal}
+          factura={factura}
+          handleItemChange={handleItemChange}
+          handleEliminarItem={handleEliminarItem}
+          guardarFactura={guardarFactura}
+        />
+      </div>
       </div>
 
-    
-    </div>
   );
 };
 
