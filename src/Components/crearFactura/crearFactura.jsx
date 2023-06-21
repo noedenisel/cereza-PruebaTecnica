@@ -120,77 +120,83 @@ const CrearFactura = () => {
   };
 
   return (
-    <div>
-      <h2>Crear Factura</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="cliente">Cliente:</label>
-        <input
-          type="text"
-          id="cliente"
-          name="cliente"
-          value={factura.cliente}
-          onChange={handleInputChange}
-        />
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <div className="card">
+            <div className="card-header">
+              <h4>Crear Factura</h4>
+            </div>
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="cliente">Cliente:</label>
+              <input
+                type="text"
+                id="cliente"
+                name="cliente"
+                value={factura.cliente}
+                onChange={handleInputChange}
+              />
+              <label htmlFor="fecha">Fecha:</label>
+              <DatePicker
+                id="fecha"
+                name="fecha"
+                selected={fecha}
+                onChange={handleInputChange}
+                dateFormat="dd/MM/yyyy"
+                minDate={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
+              />
+              <br />
+              <br />
+              {factura.items.map((item, index) => (
+                <div key={index}>
+                  <label>Producto:</label>
+                  <select
+                    name="producto"
+                    value={item.producto}
+                    onChange={(e) => handleItemChange(e, index)}
+                  >
+                    <option value="">Seleccione un producto</option>
+                    {productos.map((producto) => (
+                      <option key={producto.id} value={producto.title}>
+                        {producto.title}
+                      </option>
+                    ))}
+                  </select>
 
-        <label htmlFor="fecha">Fecha:</label>
-        <DatePicker
-          id="fecha"
-          name="fecha"
-          selected={fecha}
-          onChange={handleInputChange}
-          dateFormat="dd/MM/yyyy"
-          minDate={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
-        />
+                  <label>Precio:</label>
+                  <input type="number" name="precio" value={item.precio} readOnly />
 
-        <h3>Productos:</h3>
-        {factura.items.map((item, index) => (
-          <div key={index}>
-            <label>Producto:</label>
+                  <label>Cantidad:</label>
+                  <input
+                    type="number"
+                    name="cantidad"
+                    value={item.cantidad}
+                    onChange={(e) => handleItemChange(e, index)}
+                  />
 
-            <select
-              name="producto"
-              value={item.producto}
-              onChange={e => handleItemChange(e, index)}
-            >
-              <option value="">Seleccione un producto</option>
-              {productos.map(producto => (
-                <option key={producto.id} value={producto.title}>
-                  {producto.title}
-                </option>
+                  <label>Subtotal:</label>
+                  <span>{item.subtotal}</span>
+
+                  <i
+                    onClick={() => handleEliminarItem(index)}
+                    className="bi-trash task-action"
+                    style={{ color: 'tomato', fontWeight: 'bold' }}
+                  ></i>
+                </div>
               ))}
-            </select>
+              <br />
+              <button type="button" onClick={handleAgregarItem}>
+                Agregar Producto
+              </button>
+              <br />
 
-            <label>Precio:</label>
-            <input type="number" name="precio" value={item.precio} readOnly />
+              <label>Total:</label>
+              <span>{factura.total}</span>
+              <br />
+              <button type="submit">Guardar Factura</button>
+            </form>
 
-            <label>Cantidad:</label>
-            <input
-              type="number"
-              name="cantidad"
-              value={item.cantidad}
-              onChange={e => handleItemChange(e, index)}
-            />
-
-            <label>Subtotal:</label>
-            <span>{item.subtotal}</span>
-
-            <button type="button" onClick={() => handleEliminarItem(index)}>
-              Eliminar
-            </button>
-          </div>
-        ))}
-
-        <button type="button" onClick={handleAgregarItem}>
-          Agregar Producto
-        </button>
-
-        <label>Total:</label>
-        <span>{factura.total}</span>
-
-        <button type="submit">Guardar Factura</button>
-      </form>
-
-      <Modal
+            <Modal
         isOpen={modalOpen}
         onRequestClose={closeModal}
         contentLabel="Detalles de la factura"
@@ -230,6 +236,11 @@ const CrearFactura = () => {
         <button onClick={guardarFactura}>Confirmar</button>
         <button onClick={closeModal}>Cancelar</button>
       </Modal>
+          </div>
+        </div>
+      </div>
+
+    
     </div>
   );
 };

@@ -2,10 +2,9 @@
   color: white;
 }
 
-
 .banner {
     background-image: url("../img/banner-2.png");
-    height: 260px; 
+    height: 150px; 
     width: calc(100% - 20px); 
     margin: 10px; 
     background-repeat: no-repeat;
@@ -28,6 +27,15 @@
   img {
     overflow-clip-margin: content-box;
     overflow: clip;
+}
+
+.logo {
+  margin-right: auto; 
+}
+
+.logoImage {
+  height: 90px;
+  width: auto;
 }
 
 
