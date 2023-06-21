@@ -34,15 +34,20 @@ const CrearFactura = () => {
   }, []);
 
   const handleInputChange = (e) => {
-    if (e.target.name === 'fecha') {
-      setFecha(new Date(e.target.value));
-    } else {
+    if (e.target) {
       setFactura((prevState) => ({
         ...prevState,
         [e.target.name]: e.target.value,
       }));
+    } else {
+      setFecha(e);
+      setFactura((prevState) => ({
+        ...prevState,
+        fechaCreacion: e,
+      }));
     }
   };
+  
 
   const handleItemChange = (e, index) => {
     const { name, value } = e.target;
