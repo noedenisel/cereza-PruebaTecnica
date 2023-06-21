@@ -1,9 +1,6 @@
-import React from 'react';
-
-import InvoiceList from "../invoiceList/invoiceList"
-
-import styles from './Home.module.css';
-
+import React from "react";
+import InvoiceList from "../invoiceList/invoiceList";
+import styles from "./Home.module.css";
 
 export default function Home() {
   return (
@@ -14,10 +11,9 @@ export default function Home() {
       </header>
       <main>
         <div className={styles.invoiceListContainer}>
-          <InvoiceList/>
+          <InvoiceList />
         </div>
       </main>
     </div>
   );
 }
-

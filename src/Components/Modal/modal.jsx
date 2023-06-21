@@ -46,10 +46,9 @@ const DetallesFacturaModal = ({ isOpen, onRequestClose, factura, handleItemChang
                     className="btn btn-outline-secondary"
                     onClick={() =>
                       handleItemChange(
-                        { target: { name: 'cantidad', value: item.cantidad + 1 } },
+                        { target: { name: 'cantidad', value: +item.cantidad + 1 } },
                         index
-                      )
-                    }
+                    )}
                   >
                     <i className="bi bi-caret-up"></i>
                   </button>
@@ -58,10 +57,9 @@ const DetallesFacturaModal = ({ isOpen, onRequestClose, factura, handleItemChang
                     className="btn btn-outline-secondary"
                     onClick={() =>
                       handleItemChange(
-                        { target: { name: 'cantidad', value: item.cantidad - 1 } },
+                        { target: { name: 'cantidad', value: +item.cantidad - 1 } },
                         index
-                      )
-                    }
+                    )}
                   >
                     <i className="bi bi-caret-down"></i>
                   </button>
