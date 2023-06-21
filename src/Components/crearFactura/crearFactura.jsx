@@ -5,7 +5,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import DetallesFacturaModal from '../Modal/modal';
 
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CrearFactura = () => {
@@ -229,8 +228,16 @@ const CrearFactura = () => {
               </button>
             </div>
             <div className="mb-3">
-              <label className="form-label">Total:</label>
-              <span>{factura.total}</span>
+              <div className="mb-3">
+                <div className="border rounded p-2 d-flex justify-content-between">
+                  <label className="form-label">
+                    <strong>Total:</strong>
+                  </label>
+                  <span>
+                    <strong>{factura.total}</strong>
+                  </span>
+                </div>
+              </div>
             </div>
             <div className="mb-3 col text-center">
               <button type="submit" className="btn btn-primary">
@@ -249,8 +256,7 @@ const CrearFactura = () => {
           guardarFactura={guardarFactura}
         />
       </div>
-      </div>
-
+    </div>
   );
 };
 

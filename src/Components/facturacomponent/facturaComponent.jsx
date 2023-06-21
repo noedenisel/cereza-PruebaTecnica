@@ -31,7 +31,6 @@ const FacturaComponent = ({ factura, remove }) => {
         <span>{factura.fecha}</span>
       </td>
       <td className="align-middle">
-        <i onClick={() => remove(factura)} className="bi-trash task-action" style={{ color: 'tomato', fontWeight: 'bold' }}></i>
         <i className="bi bi-info" onClick={openModal}></i>
       </td>
       {modalOpen && (
@@ -44,6 +43,7 @@ const FacturaComponent = ({ factura, remove }) => {
           guardarFactura={() => {}}
         />
       )}
+
     </tr>
   );
 };

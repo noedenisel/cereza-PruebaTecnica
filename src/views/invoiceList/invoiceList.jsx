@@ -47,7 +47,7 @@ const InvoiceList = () => {
             <th scope="col">Cliente</th>
             <th scope="col">Total</th>
             <th scope="col">Fecha de Factura</th>
-            <th scope="col">Actions</th>
+            <th scope="col">Ver Factura</th>
           </tr>
         </thead>
         <tbody>

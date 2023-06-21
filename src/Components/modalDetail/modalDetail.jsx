@@ -11,10 +11,11 @@ const DetallesFacturaModal = ({ isOpen, onRequestClose, factura }) => {
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onRequestClose} contentLabel="Detalles de la factura">
-      <button className="close-button btn btn-danger" onClick={handleCloseModal}>
+      <button className="close-button btn btn-danger float-end" onClick={handleCloseModal}>
         X
       </button>
-      <h2>Detalles de la factura</h2>
+      <h2>Detalles de factura</h2>
+      <p>Factura Nro.:  {factura.numero}</p>
       <p>Fecha: {fechaCreacion}</p>
       <p>Cliente: {factura.cliente}</p>
 
@@ -39,8 +40,8 @@ const DetallesFacturaModal = ({ isOpen, onRequestClose, factura }) => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="3">Total:</td>
-            <td>{factura.total}</td>
+            <td colSpan="3"><strong>Total:</strong></td>
+            <td><strong>{factura.total}</strong></td>
           </tr>
         </tfoot>
       </table>
