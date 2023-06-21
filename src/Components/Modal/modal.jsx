@@ -83,8 +83,12 @@ const DetallesFacturaModal = ({ isOpen, onRequestClose, factura, handleItemChang
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="3">Total:</td>
-            <td>{factura.total}</td>
+            <td colSpan="3">
+              <strong>Total:</strong>
+            </td>
+            <td> 
+              <strong>{factura.total}</strong>
+            </td>
             <td></td>
           </tr>
         </tfoot>

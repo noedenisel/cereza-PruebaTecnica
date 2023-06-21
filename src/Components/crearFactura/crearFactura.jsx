@@ -246,7 +246,7 @@ const CrearFactura = () => {
             </div>
             <div className="mb-3 col text-center">
               <button type="submit" className="btn btn-primary">
-                Guardar Factura
+                Crear Factura
               </button>
             </div>
           </div>
