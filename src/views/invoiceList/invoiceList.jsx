@@ -1,8 +1,7 @@
+// InvoiceList.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-import FacturaComponent from '../../Components/facturacomponent/facturaComponent';
-
+import InvoiceTable from '../../Components/invoiceTable/invoiceTable';
 import styles from './invoiceList.module.css';
 
 const InvoiceList = () => {
@@ -24,9 +23,6 @@ const InvoiceList = () => {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-
-    return () => {
-    };
   }, [facturas, facturaGuardada]);
 
   const removeFactura = (factura) => {
@@ -37,39 +33,6 @@ const InvoiceList = () => {
   const handleSaveFactura = (factura) => {
     setFacturas((prevFacturas) => [...prevFacturas, factura]);
   };
-
-  const Table = () => {
-    return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Nro Factura</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Total</th>
-            <th scope="col">Fecha de Factura</th>
-            <th scope="col">Ver Factura</th>
-          </tr>
-        </thead>
-        <tbody>
-          {facturas.map((factura, index) => (
-            <FacturaComponent key={index} factura={factura} remove={removeFactura} />
-          ))}
-        </tbody>
-      </table>
-    );
-  };
-
-  let facturasTable;
-
-  if (facturas.length > 0) {
-    facturasTable = <Table />;
-  } else {
-    facturasTable = (
-      <div>
-        <h3>No hay facturas para mostrar</h3>
-      </div>
-    );
-  }
 
   return (
     <div className="container">
@@ -84,7 +47,11 @@ const InvoiceList = () => {
               data-mdb-perfect-scrollbar="true"
               style={{ position: 'relative', height: '400px' }}
             >
-              {loading ? <p className={styles.loading}>Cargando Facturas</p> : facturasTable}
+              {loading ? (
+                <p className={styles.loading}>Cargando Facturas</p>
+              ) : (
+                <InvoiceTable facturas={facturas} removeFactura={removeFactura} />
+              )}
             </div>
           </div>
         </div>
@@ -101,4 +68,3 @@ const InvoiceList = () => {
 };
 
 export default InvoiceList;
-
